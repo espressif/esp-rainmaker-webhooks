@@ -126,7 +126,7 @@ WebHook template.
 
 **Step 1** Clone the sample WebHook repository
 
-$ git clone https://gitlab.espressif.cn:6688/esp_rainmaker/rainmaker_webhooks.git
+$ git clone https://github.com/espressif/esp-rainmaker-webhooks.git
 
 **Step 2** Extend the code of the Lambda function
 
@@ -296,8 +296,6 @@ Note - This API needs to be called by the end user or the super admin user. This
 [RainMaker Swagger API Documentation][swagger] 
 
 ### Testing the Node Online event
-
-Add the details about how the Node Online event can be tested.
 
 Step 1 - Connect the node to an MQTT broker using the ESP32 device or using a tool like MQTT.Fx
 
