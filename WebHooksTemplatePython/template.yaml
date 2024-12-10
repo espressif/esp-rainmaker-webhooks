@@ -69,19 +69,6 @@ Resources:
       Handler: app.lambda_handler
       Role: !GetAtt HelloRainmakerLambdaExecutionRole.Arn
       Events:
-        UserNodeAssociationSNSEvent:
-          Type: SNS
-          Properties:
-            Topic: !Join
-              - ""
-              - - "arn:"
-                - !Ref "AWS::Partition"
-                - ":sns:"
-                - !Ref "AWS::Region"
-                - ":"
-                - !Ref "AWS::AccountId"
-                - ":"
-                - !ImportValue esp-UserNodeAssociationSNS
         NodeConnectedSNSEvent:
           Type: SNS
           Properties:
@@ -303,6 +290,32 @@ Resources:
                 - !Ref "AWS::AccountId"
                 - ":"
                 - !ImportValue esp-ExistingTagsAttachedSNS
+        UserNodeOtaSNSEvent:
+          Type: SNS
+          Properties:
+            Topic: !Join
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
+                - !ImportValue esp-UserNodeOtaSNS
+        TSDataSNSEvent:
+          Type: SNS
+          Properties:
+            Topic: !Join
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
+                - !ImportValue esp-TSDataSNS
 
   HelloRainmakerLog:
     Type: AWS::Logs::LogGroup
