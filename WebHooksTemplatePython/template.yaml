@@ -15,7 +15,7 @@ Description: >
 Globals:
   Function:
     Timeout: 3
-    Runtime: python3.7
+    Runtime: python3.9
 
 Parameters:
   StageName:
@@ -73,7 +73,6 @@ Resources:
       CodeUri: hello_rainmaker/
       Handler: app.lambda_handler
       Role: !GetAtt HelloRainmakerLambdaExecutionRole.Arn
-      Runtime: python3.7
       Events:
         UserNodeAssociationSNSEvent:
           Type: SNS
