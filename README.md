@@ -67,6 +67,8 @@ Here is the reference to the RainMaker WebHooks API - Refer [RainMaker API Docum
 |   14    |         New Tags Added         |       rmaker.event.new_tags_added        |       esp_rainmaker_sns_new_tags_added        |             No             |                No                 |
 |   15    |     Existing Tags Attached     |   rmaker.event.existing_tags_attached    |   esp_rainmaker_sns_existing_tags_attached    |             No             |                No                 |
 |   16    |      Node Config changed       |     rmaker.event.node_config_changed     |    esp_rainmaker_sns_node_config_modified     |            Yes             |                Yes                |
+|   17    |    User Node OTA triggered     |        rmaker.event.user_node_ota        |        esp_rainmaker_sns_user_node_ota        |            Yes             |                Yes                |
+|   18    |        TimeSeries Data         |        rmaker.event.node_ts_data         |        esp_rainmaker_sns_node_ts_data         |            Yes             |                No                 |
 
 ## About the sample WebHook Project
 

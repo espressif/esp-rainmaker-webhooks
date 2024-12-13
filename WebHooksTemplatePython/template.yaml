@@ -1,21 +1,17 @@
-
 # Steps to deploy SAM template
 # sam package --template-file template.yaml --output-template-file template_package.yml --s3-bucket hellorainmakertest
 # sam deploy --template-file template_package.yml --stack-name HelloRainMaker --capabilities CAPABILITY_NAMED_IAM --parameter-overrides 'StageName=dev'
 
-
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
   Esp Rainmaker Integration Hello World Stack
   This Stack will enable you to receive event
 
-
-
 Globals:
   Function:
     Timeout: 3
-    Runtime: python3.7
+    Runtime: python3.9
 
 Parameters:
   StageName:
@@ -34,7 +30,7 @@ Resources:
     Properties:
       RoleName: HelloRainmakerLambdaExecutionRole
       AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Statement:
           - Effect: Allow
             Principal:
@@ -46,25 +42,24 @@ Resources:
       Policies:
         - PolicyName: NotifyWebhookLambdaExecutionRolePolicy
           PolicyDocument:
-            Version: '2012-10-17'
+            Version: "2012-10-17"
             Statement:
               - Effect: Allow
                 Action:
                   - logs:*
-                Resource: arn:aws:logs:*:*:*
+                Resource: arn:*:logs:*:*:*
               - Effect: Allow
                 Action:
                   - SNS:GetTopicAttributes
                 Resource: !Join
-                  - ''
-                  - - 'arn:aws:sns:'
-                    - !Ref 'AWS::Region'
-                    - ':'
-                    - !Ref 'AWS::AccountId'
-                    - ':*'
-
-
-
+                  - ""
+                  - - "arn:"
+                    - !Ref "AWS::Partition"
+                    - ":sns:"
+                    - !Ref "AWS::Region"
+                    - ":"
+                    - !Ref "AWS::AccountId"
+                    - ":*"
 
   HelloRainmaker:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -73,210 +68,257 @@ Resources:
       CodeUri: hello_rainmaker/
       Handler: app.lambda_handler
       Role: !GetAtt HelloRainmakerLambdaExecutionRole.Arn
-      Runtime: python3.7
       Events:
-        UserNodeAssociationSNSEvent:
-          Type: SNS
-          Properties:
-            Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
-                - !ImportValue esp-UserNodeAssociationSNS
         NodeConnectedSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-NodeConnectedSNS
         NodeDisConnectedSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-NodeDisConnectedSNS
         UserNodeSharingAddSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-UserNodeAddSharingSNS
         UserNodeSharingRemoveSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-UserNodeRemoveSharingSNS
         UserNodeAddedSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-UserNodeAddedSNS
         UserNodeRemovedSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-UserNodeRemovedSNS
         NodeParameterModifiedSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-NodeParameterModifiedSNS
         NodeAlertSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-NodeAlertSNS
         NodeAutomationTriggerSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-NodeAutomationTriggerSNS
         UserNodeGroupAddSharingSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-UserNodeGroupAddSharingSNS
         UserNodeGroupAddedSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-UserNodeGroupAddedSNS
         UserNodeGroupRemovedSNSEvent:
           Type: SNS
           Properties:
             Topic: !Join
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-UserNodeGroupRemovedSNS
         NodeConfigAddedSNSEvent:
           Type: SNS
           Properties:
-            Topic: !Join 
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+            Topic: !Join
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-NodeConfigModifiedSNS
         NodeRegisteredSNSEvent:
           Type: SNS
           Properties:
-            Topic: !Join 
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+            Topic: !Join
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-NodeRegisteredSNS
         AdminUserAddedSNSEvent:
           Type: SNS
           Properties:
-            Topic: !Join 
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+            Topic: !Join
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-AdminUserAddedSNS
         NewTagsAddedSNSEvent:
           Type: SNS
           Properties:
-            Topic: !Join 
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+            Topic: !Join
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-NewTagsAddedSNS
         ExistingTagsAttachedSNSEvent:
           Type: SNS
           Properties:
-            Topic: !Join 
-              - ''
-              - - 'arn:aws:sns:'
-                - !Ref 'AWS::Region'
-                - ':'
-                - !Ref 'AWS::AccountId'
-                - ':'
+            Topic: !Join
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
                 - !ImportValue esp-ExistingTagsAttachedSNS
+        UserNodeOtaSNSEvent:
+          Type: SNS
+          Properties:
+            Topic: !Join
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
+                - !ImportValue esp-UserNodeOtaSNS
+        TSDataSNSEvent:
+          Type: SNS
+          Properties:
+            Topic: !Join
+              - ""
+              - - "arn:"
+                - !Ref "AWS::Partition"
+                - ":sns:"
+                - !Ref "AWS::Region"
+                - ":"
+                - !Ref "AWS::AccountId"
+                - ":"
+                - !ImportValue esp-TSDataSNS
 
   HelloRainmakerLog:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: !Join ["", ["/aws/lambda/", !Ref HelloRainmakerFunctionName]]
       RetentionInDays: !Ref LogRetentionInDays
-
